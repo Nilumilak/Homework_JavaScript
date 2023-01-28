@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Loading, please wait...</p>
+    <script>
+        let run = true
+        while (run) {
+            let randomNumber = Math.floor(Math.random() * 1000)
+            console.log(randomNumber)
+            let userNumber  = Number(prompt('Введите число от 0 до 999'))
+            console.log(userNumber)
+            console.log(isNaN(userNumber))
+            if (isNaN(userNumber) || userNumber < 0 || userNumber > 999) {
+                alert('Введите число от 0 до 999')
+            } else if (userNumber < randomNumber) {
+                alert('Меньше')
+            } else if (userNumber > randomNumber) {
+                alert('Больше')
+            } else {
+                alert('Вы Угадали!')
+                run = false
+            }
+        }
+    </script>
+</body>
+</html>
