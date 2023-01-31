@@ -1,13 +1,19 @@
 function simpleNumbers (n) {
     simpleNumbers._array = []
+    let simple = true
     let number = 2
     while (simpleNumbers._array.length < n) {
-        if (number === 2 || number === 3 || number === 5) {
-            simpleNumbers._array.push(number)
-        } else if (number%2 !== 0 && number%3 !== 0 && number%5 !== 0) {
+        for (i of simpleNumbers._array) {
+            if (number%i === 0) {
+                simple = false
+                break
+            }
+        }
+        if (simple) {
             simpleNumbers._array.push(number)
         }
         number++
+        simple = true
     }
     return simpleNumbers._array
 }

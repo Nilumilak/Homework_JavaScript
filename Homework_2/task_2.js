@@ -1,78 +1,90 @@
-goodsItems = {
-    1: {
+goodsItems = [
+    {
+        id: 1,
         name: 'Джинсы',
         description: 'Качественные джинсы',
         sizes: [40, 41, 42, 43, 44],
         price: 5000,
         available: true,
     },
-    2: {
+    {
+        id: 2,
         name: 'Шапка',
         description: 'Зимняя шапка',
         sizes: [40, 41, 42],
         price: 1000,
         available: false,
     },
-    3: {
+    {
+        id: 3,
         name: 'Майка',
         description: 'Модная майка',
         sizes: [39, 40, 41],
         price: 1500,
         available: true,
     },
-    4: {
+    {
+        id: 4,
         name: 'Шорты',
         description: 'Летние шорты',
-        sizes: [42, 43 ,44],
+        sizes: [42, 43, 44],
         price: 2000,
         available: true,
     },
-    5: {
+    {
+        id: 5,
         name: 'Перчатки',
         description: 'Лыжные перчатки',
         sizes: [40, 41],
         price: 2000,
         available: false,
     },
-}
+]
 
-basket = {
-    3: {
+basket = [
+    {
+        good: 3,
         amount: 2,
     },
-    4: {
+    {
+        good: 4,
         amount: 3,
     },
-}
+]
 
 function addItem(itemId, itemAmount) {
-    if (goodsItems[itemId] !== undefined && goodsItems[itemId].available === true){
-        if (basket[itemId] !== undefined) {
-            basket[itemId].amount += itemAmount
-        } else {
-            basket[itemId] = {amount: itemAmount}
+    if (goodsItems[itemId-1] !== undefined && goodsItems[itemId-1].available === true) {
+        addItem._added = false
+        for (let i of basket) {
+            if (i.good === itemId) {
+                i.amount += itemAmount
+                addItem._added = true
+            }
+        }
+        if (!addItem._added) {
+            basket.push({good: itemId, amount: itemAmount})
         }
     }
 }
 
 function removeItem(itemId) {
-    if (basket[itemId] !== undefined) {
-        delete basket[itemId]
+    for (let i = 0; i < basket.length; i++) {
+        if (basket[i].good === itemId) {
+            basket.splice(i, 1)
+        }
     }
 }
 
 function erraseBasket() {
-    for (item in basket) {
-        delete basket[item]
-    }
+    basket.splice(0, basket.length)
 }
 
 function total() {
     total._sum = 0
     total._amount = 0
-    for (item in basket) {
-        total._sum += goodsItems[item].price * basket[item].amount
-        total._amount += basket[item].amount
+    for (item of basket) {
+        total._sum += goodsItems[item.good - 1].price * item.amount
+        total._amount += item.amount
     }
     return {
         totalAmount: total._amount,
@@ -80,13 +92,18 @@ function total() {
     }
 }
 
+console.log('Basket: ', basket)
 addItem(1, 2)
+console.log('Added item 1, amount 2')
 console.log('Basket: ', basket)
 addItem(3, 2)
+console.log('Added item 3, amount 2. Already exists in the basket')
 console.log('Basket: ', basket)
 addItem(2, 2)
+console.log('Added item 2, amount 2. Item 2 is not available for sale')
 console.log('Basket: ', basket)
 removeItem(4)
+console.log('Removed item 4 from basket')
 console.log('Basket: ', basket)
 console.log('Total sum: ', total())
 erraseBasket()
