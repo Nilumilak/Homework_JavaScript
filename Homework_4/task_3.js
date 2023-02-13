@@ -10,22 +10,21 @@ const question = function question(text) {
     })
 }
 
-function guessNumber() {
+async function guessNumber() {
     let number = Math.floor(Math.random() * 100)
     console.log(number)
-    return async function userGuess(text = 'Guess the number: ') {
-        let answer = await question(text);
+    let answer = await question('Guess the number: ');
+    while (true) {
         if (answer > number) {
-            userGuess('Bigger! Try again: ')
+            answer = await question('Bigger! Try again: ')
         } else if (answer < number) {
-            userGuess('Smaller! Try again: ')
+            answer = await question('Smaller! Try again: ')
         } else if (!isNaN(answer)) {
             console.log('Good job!')
             rl.close()
             return
         }
-        userGuess();
-    }()
+    }
 }
 
 guessNumber()
